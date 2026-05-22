@@ -1,0 +1,19 @@
+{
+  "name": "bss-sc1240-sdk",
+  "version": "1.0.0",
+  "description": "BSS Parking Smart Lock SC1240 — Node.js SDK for BLE/Serial communication",
+  "main": "index.js",
+  "scripts": {
+    "example": "node examples/example_parking_automation.js",
+    "test": "jest"
+  },
+  "keywords": ["bss", "sc1240", "parking", "smart-lock", "ble", "iot", "sdk"],
+  "license": "MIT",
+  "engines": { "node": ">=16.0.0" },
+  "dependencies": {
+    "eventemitter3": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
