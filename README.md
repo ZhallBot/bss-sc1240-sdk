@@ -1,8 +1,8 @@
 # BSS Parking Smart Lock SC1240
 # Panduan Instalasi & Setup Lengkap
 
-**Versi SDK:** 1.0.0 | **Hardware:** SC1240 Parking Smart Lock
-**Tanggal:** 2026-05-22 | **Dukungan:** Firmware C/C++ - Node.js - Swift - Java/Android - Payment Backend
+**Versi SDK:** 2.0.0 (Dashboard V2) | **Hardware:** SC1240 Parking Smart Lock
+**Tanggal:** 2026-05-23 | **Dukungan:** Firmware C/C++ - Node.js - Swift - Java/Android - Payment Backend - Admin Dashboard Web
 
 ---
 
@@ -16,11 +16,12 @@
 6. [Track C: iOS SDK Swift](#track-c-ios-sdk-swift)
 7. [Track D: Android SDK Java](#track-d-android-sdk-java)
 8. [Track E: Payment Backend](#track-e-payment-backend)
-9. [Menjalankan Demo Lengkap](#9-menjalankan-demo-lengkap)
-10. [Konfigurasi Environment Variables](#10-konfigurasi-environment-variables)
-11. [Koneksi Hardware Fisik](#11-koneksi-hardware-fisik)
-12. [Troubleshooting](#12-troubleshooting)
-13. [Checklist Produksi](#13-checklist-produksi)
+9. [Track F: BSS Parking Operational Admin Dashboard](#track-f-bss-parking-operational-admin-dashboard)
+10. [Menjalankan Demo Lengkap](#10-menjalankan-demo-lengkap)
+11. [Konfigurasi Environment Variables](#11-konfigurasi-environment-variables)
+12. [Koneksi Hardware Fisik](#12-koneksi-hardware-fisik)
+13. [Troubleshooting](#13-troubleshooting)
+14. [Checklist Produksi](#14-checklist-produksi)
 
 ---
 
@@ -105,7 +106,7 @@ bss-sc1240-sdk/
 |   |       +-- SC1240Device.js    High-level device facade
 |   |-- swift/
 |   |   +-- SC1240SDK.swift        Track C: iOS/macOS (CoreBluetooth)
-|   +-- java/
+|   |-- java/
 |       +-- SC1240Device.java      Track D: Android (GATT + RxJava 3)
 |
 |-- payment/                       Track E: Payment Backend
@@ -129,6 +130,12 @@ bss-sc1240-sdk/
 |   |   +-- dana.adapter.js        RSA-SHA256 signature
 |   |-- models/ParkingTransaction.js   MongoDB schema
 |   +-- utils/feeCalculator.js         Kalkulasi tarif parkir
+|
+|-- dashboard/                     Track F: Operational Admin Dashboard Web UI
+|   |-- index.html                 HTML layout with Control, Analytics & Spec tabs
+|   |-- styles.css                 Glassmorphic style system
+|   |-- dashboard.js               Simulator, charts & CSV download logic
+|   +-- server.js                  Zero-dependency HTTP server
 |
 +-- demo/
     +-- run_demo.js                Demo end-to-end standalone
@@ -640,7 +647,39 @@ curl -X POST http://localhost:3000/api/v1/admin/locks/SC1240-A01/force-open \
 
 ---
 
-## 9. Menjalankan Demo Lengkap
+## Track F: BSS Parking Operational Admin Dashboard
+
+> Untuk siapa: Staf operasional, petugas keamanan, dan facility managers
+
+Admin Dashboard V2 menyajikan antarmuka premium berbasis *Dark Glassmorphism* untuk manajemen real-time, kontrol override manual, incident warnings feed, analitik visual keuangan (SVG charts), serta spesifikasi database relasional/NoSQL dan SQL queries.
+
+### F.1 Struktur Berkas Dashboard
+- `dashboard/index.html` - Struktur layout UI (Grid View, Analytics Panel, Tech Spec).
+- `dashboard/styles.css` - Desain visual, CSS variables, layout, animasi pendaran status.
+- `dashboard/dashboard.js` - Logic controller, data mock JSON 10 slot, grafik SVG, ekspor CSV.
+- `dashboard/server.js` - HTTP server lokal zero-dependency menggunakan Node.js core.
+
+### F.2 Menjalankan Dashboard Secara Lokal
+1. Buka terminal pada root direktori proyek dan jalankan perintah:
+   ```bash
+   node dashboard/server.js
+   ```
+2. Buka browser web Anda dan akses:
+   **http://localhost:8080**
+
+### F.3 Fitur Utama Dashboard V2
+- **Pusat Kendali (Grid View):** Memantau status visual slot (Vacant, Occupied, Transisi, Offline, Eror/Anomali), daya standby baterai (200~300uA draw), dan kekuatan sinyal IoT.
+- **Manual Override & Bypass (Reset):** Pilihan tombol *Naikkan (Lockout)*, *Turunkan (Lock-down)*, dan *Reset Device* (hex command: `12345678EB90FFFFFFFF0233`). Dilengkapi dengan *Safety Lock* switch dan pengisian log alasan audit wajib sebelum konfirmasi kirim perintah.
+- **Incident & Anomaly Feed:** Sidebar penanganan error real-time untuk mendeteksi Error 80 (baffle jammed), Error 20 (shaking alarm), Error 10 (elevasi < 35°), dan baterai lemah (<20%). Menyediakan aksi "Investigasi Selesai" untuk memulihkan status lot ke normal.
+- **Analitik Pendapatan & Keuangan:**
+  - KPI box: Pendapatan harian, transaksi sukses, occupancy rate (%), dan potensi kebocoran pendapatan (*revenue leakage* akibat Error 20).
+  - Grafik tren pendapatan per jam (SVG Line Chart) dan korelasi durasi parkir vs nominal biaya (SVG Scatter Plot).
+  - Tabel audit keuangan dengan tombol **Ekspor ke CSV** untuk mengunduh laporan langsung dari browser.
+- **Spesifikasi Teknis:** Menampilkan diagram teks wireframe, dokumentasi skema relasional SQL (PostgreSQL), NoSQL MongoDB time-series log, rekomendasi tech stack B2B IoT, dan query SQL agregasi laba harian.
+
+---
+
+## 10. Menjalankan Demo Lengkap
 
 ### Demo CLI Standalone (Tidak Butuh Database atau Hardware Fisik)
 
@@ -679,7 +718,7 @@ Semua endpoint tersedia tanpa konfigurasi tambahan dalam mock mode.
 
 ---
 
-## 10. Konfigurasi Environment Variables
+## 11. Konfigurasi Environment Variables
 
 | Variable | Default | Keterangan |
 |----------|---------|-----------|
@@ -702,7 +741,7 @@ Semua endpoint tersedia tanpa konfigurasi tambahan dalam mock mode.
 
 ---
 
-## 11. Koneksi Hardware Fisik
+## 12. Koneksi Hardware Fisik
 
 ### USB-Serial CH340: Flash Firmware
 
@@ -755,18 +794,18 @@ Panel Surya (12V)
     |
 [Buck Converter 3.3V]
     |
-MCU SC1240 (standby: 200-300 uA)
+[MCU SC1240 (standby: 200-300 uA)]
 ```
 
 ---
 
-## 12. Troubleshooting
+## 13. Troubleshooting
 
 | # | Gejala / Error | Kemungkinan Penyebab | Solusi |
 |---|----------------|---------------------|--------|
 | 1 | `arm-none-eabi-gcc: command not found` | Toolchain belum install atau PATH belum diperbarui | Jalankan install command, lalu buka terminal baru |
 | 2 | `node: command not found` | PATH Node.js belum diperbarui | Buka terminal baru, atau gunakan path penuh `C:\Program Files\nodejs\node.exe` |
-| 3 | `EACCES permission denied` saat BLE | Noble membutuhkan raw socket access | `sudo node app.js` atau `sudo setcap cap_net_raw+eip $(which node)` |
+| 3 | `EACCES permission denied` saat BLE | Noble membutuhkan raw socket access | `sudo node app.js` or `sudo setcap cap_net_raw+eip $(which node)` |
 | 4 | `Cannot find module 'eventemitter3'` | npm install belum dijalankan | Jalankan `npm install` di folder sdk/nodejs |
 | 5 | `MongoServerError: connect ECONNREFUSED` | MongoDB tidak berjalan | `net start MongoDB` (Windows) atau `sudo systemctl start mongod` |
 | 6 | `Webhook signature mismatch` | Body JSON di-parse sebelum HMAC dihitung | Gunakan `express.raw()` bukan `express.json()` untuk route webhook |
@@ -777,7 +816,7 @@ MCU SC1240 (standby: 200-300 uA)
 
 ---
 
-## 13. Checklist Produksi
+## 14. Checklist Produksi
 
 > [!CAUTION]
 > Semua item wajib diselesaikan sebelum deploy ke lingkungan produksi.
@@ -826,6 +865,9 @@ MCU SC1240 (standby: 200-300 uA)
 ## Ringkasan Perintah Cepat
 
 ```bash
+# Jalankan dashboard server (port 8080)
+node dashboard/server.js
+
 # Jalankan demo standalone (tidak butuh database atau hardware)
 "C:\Program Files\nodejs\node.exe" demo/run_demo.js
 
@@ -856,7 +898,7 @@ curl http://localhost:3000/api/v1/admin/devices
 
 ---
 
-Dokumentasi ini dibuat untuk BSS SC1240 SDK v1.0.0
+Dokumentasi ini dibuat untuk BSS SC1240 SDK v2.0.0 (Dashboard V2)
 
 Referensi lanjutan:
 - API_REFERENCE.md: Spesifikasi frame protokol, error codes, checksum
