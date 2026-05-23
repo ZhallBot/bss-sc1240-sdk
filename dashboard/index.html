@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSS Parking — SC1240 Operational Console</title>
+    <title>BSS Parking Lock Manager — Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,115 +21,441 @@
             </div>
             <div class="logo-text">
                 <h1>BSS PARKING</h1>
-                <span class="sub-logo">Operational Admin Console</span>
+                <span class="sub-logo">Smart Lock Manager</span>
             </div>
         </div>
 
-        <!-- Global Summary Stats -->
-        <div class="header-stats">
-            <div class="stat-badge total">
-                <span class="stat-val" id="count-total">10</span>
-                <span class="stat-label">Total Lot</span>
-            </div>
-            <div class="stat-badge vacant">
-                <span class="stat-val" id="count-vacant">0</span>
-                <span class="stat-label">Kosong</span>
-            </div>
-            <div class="stat-badge occupied">
-                <span class="stat-val" id="count-occupied">0</span>
-                <span class="stat-label">Terisi</span>
-            </div>
-            <div class="stat-badge transition">
-                <span class="stat-val" id="count-transition">0</span>
-                <span class="stat-label">Transisi</span>
-            </div>
-            <div class="stat-badge warning-badge">
-                <span class="stat-val" id="count-anomaly">0</span>
-                <span class="stat-label">Anomali</span>
-            </div>
-            <div class="stat-badge offline">
-                <span class="stat-val" id="count-offline">0</span>
-                <span class="stat-label">Offline</span>
-            </div>
-        </div>
+        <!-- Tab Controls Navigation -->
+        <nav class="app-nav">
+            <button class="nav-tab active" data-tab="control">Pusat Kendali (Grid)</button>
+            <button class="nav-tab" data-tab="analytics">Analitik Pendapatan</button>
+            <button class="nav-tab" data-tab="spec">Spesifikasi Arsitektur & DB</button>
+        </nav>
 
         <div class="header-right">
             <div class="connection-status">
                 <span class="status-indicator live"></span>
-                <span class="status-text">Sistem Aktif (Simulasi)</span>
+                <span class="status-text">Sistem Aktif</span>
             </div>
             <div class="operator-profile">
-                <div class="avatar">OP</div>
+                <div class="avatar">LA</div>
                 <div class="operator-info">
                     <span class="operator-name">Bripda Setiawan</span>
-                    <span class="operator-role">Petugas Keamanan</span>
+                    <span class="operator-role">Lead Operational Analyst</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Dashboard Container -->
-    <main class="dashboard-container">
-        <!-- Center/Left Workspace (Grid & Logs) -->
-        <div class="workspace-area">
-            <!-- Section Title -->
-            <div class="section-header">
-                <h2>Live Parking Grid View</h2>
-                <div class="header-actions">
-                    <span class="live-ticker-label">Detak Telemetri:</span>
-                    <span class="telemetry-tick" id="telemetry-tick-indicator"></span>
-                </div>
+    <!-- TAB 1: PUSAT KENDALI (GRID VIEW & REAL-TIME INCIDENTS) -->
+    <div id="content-control" class="tab-content active">
+        <!-- Global Summary Stats -->
+        <div class="stats-overview-row">
+            <div class="overview-card total">
+                <span class="num" id="count-total">10</span>
+                <span class="lbl">Total Lot</span>
             </div>
-
-            <!-- Grid Layout -->
-            <div class="parking-grid" id="parking-grid">
-                <!-- Dynamically populated by dashboard.js -->
+            <div class="overview-card vacant">
+                <span class="num" id="count-vacant">0</span>
+                <span class="lbl">Vacant (Kosong)</span>
             </div>
+            <div class="overview-card occupied">
+                <span class="num" id="count-occupied">0</span>
+                <span class="lbl">Occupied (Terisi)</span>
+            </div>
+            <div class="overview-card transition">
+                <span class="num" id="count-transition">0</span>
+                <span class="lbl">Transisi</span>
+            </div>
+            <div class="overview-card warning">
+                <span class="num" id="count-anomaly">0</span>
+                <span class="lbl">Anomali</span>
+            </div>
+            <div class="overview-card offline">
+                <span class="num" id="count-offline">0</span>
+                <span class="lbl">Offline</span>
+            </div>
+        </div>
 
-            <!-- Activity Logs Section -->
-            <div class="logs-section">
-                <div class="section-header logs-header">
-                    <h2>Log Aktivitas Real-Time</h2>
-                    <div class="filter-bar">
-                        <button class="filter-btn active" data-filter="all">Semua</button>
-                        <button class="filter-btn" data-filter="error">Anomali & Error</button>
-                        <button class="filter-btn" data-filter="payment">Transaksi Sukses</button>
-                        <div class="search-box">
-                            <input type="text" id="log-search-slot" placeholder="Filter Nomor Slot (misal: 03)...">
-                        </div>
+        <main class="dashboard-container">
+            <!-- Center/Left Workspace (Grid & Logs) -->
+            <div class="workspace-area">
+                <div class="section-header">
+                    <h2>Live Parking Grid View</h2>
+                    <div class="header-actions">
+                        <span class="live-ticker-label">Detak Telemetri:</span>
+                        <span class="telemetry-tick" id="telemetry-tick-indicator"></span>
                     </div>
                 </div>
-                <div class="table-container">
-                    <table class="logs-table">
+
+                <!-- Grid Layout -->
+                <div class="parking-grid" id="parking-grid">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Activity Logs Section -->
+                <div class="logs-section">
+                    <div class="section-header logs-header">
+                        <h2>Log Aktivitas Real-Time</h2>
+                        <div class="filter-bar">
+                            <button class="filter-btn active" data-filter="all">Semua</button>
+                            <button class="filter-btn" data-filter="error">Anomali & Error</button>
+                            <button class="filter-btn" data-filter="payment">Transaksi Sukses</button>
+                            <div class="search-box">
+                                <input type="text" id="log-search-slot" placeholder="Filter Nomor Slot...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="logs-table">
+                            <thead>
+                                <tr>
+                                    <th width="15%">Waktu</th>
+                                    <th width="10%">Slot</th>
+                                    <th width="15%">Tipe Aktivitas</th>
+                                    <th width="45%">Detail Log</th>
+                                    <th width="15%">User / Sistem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-table-body">
+                                <!-- Dynamic logs -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column (Sidebar Anomaly Feed) -->
+            <aside class="sidebar-area">
+                <div class="sidebar-header">
+                    <h2>Live Incident & Anomaly Feed</h2>
+                    <span class="alert-count" id="sidebar-alert-count">0</span>
+                </div>
+                
+                <div class="incident-feed" id="incident-feed">
+                    <!-- Incident cards -->
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- TAB 2: ANALITIK PENDAPATAN (KPI, CHARTS, & AUDIT EXPORT) -->
+    <div id="content-analytics" class="tab-content">
+        <div class="analytics-container">
+            <!-- 1. Real-time KPI Panel -->
+            <div class="kpi-panel-row">
+                <div class="kpi-card">
+                    <div class="kpi-icon text-green">Rp</div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Total Pendapatan Harian</span>
+                        <h3 class="kpi-value" id="kpi-revenue">Rp 0</h3>
+                        <span class="kpi-sub">Kalkulasi 24 Jam Terakhir</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon text-blue">✓</div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Transaksi Sukses (QRIS)</span>
+                        <h3 class="kpi-value" id="kpi-transactions">0</h3>
+                        <span class="kpi-sub">Tingkat Penyelesaian 100%</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon text-purple">⚃</div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Occupancy Rate</span>
+                        <h3 class="kpi-value" id="kpi-occupancy">0%</h3>
+                        <span class="kpi-sub">Palang Naik vs Total Lot</span>
+                    </div>
+                </div>
+                <div class="kpi-card alert-kpi">
+                    <div class="kpi-icon text-red">⚠</div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Revenue Leakage (Error 20)</span>
+                        <h3 class="kpi-value" id="kpi-leakage">Rp 0</h3>
+                        <span class="kpi-sub text-red">Potensi Kehilangan dari Guncangan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Performance Visualizations -->
+            <div class="charts-row">
+                <!-- Chart 1: Hourly Revenue Trend -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4>Tren Pendapatan per Jam (Peak Hour Analysis)</h4>
+                        <span class="chart-desc">Distribusi hourly revenue hari ini</span>
+                    </div>
+                    <div class="chart-body" id="hourly-revenue-chart">
+                        <!-- Custom SVG Chart loaded here -->
+                    </div>
+                </div>
+
+                <!-- Chart 2: Duration vs Revenue Correlation -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4>Korelasi Durasi Parkir vs Pendapatan</h4>
+                        <span class="chart-desc">Analisis sebaran durasi parkir & kontribusi finansial</span>
+                    </div>
+                    <div class="chart-body" id="duration-revenue-chart">
+                        <!-- Custom SVG Chart loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Audit Transaction Report Table & Export -->
+            <div class="audit-section">
+                <div class="audit-header">
+                    <div>
+                        <h3>Tabel Audit Transaksi Keuangan (Finance Audit)</h3>
+                        <p class="audit-subtitle">Data sinkronisasi sensor log IoT dan transaksi QRIS</p>
+                    </div>
+                    <div class="audit-actions">
+                        <button class="btn btn-green" id="btn-export-csv">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; display: inline-block; vertical-align: middle;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            Ekspor ke CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container finance-table-container">
+                    <table class="audit-table">
                         <thead>
                             <tr>
-                                <th width="15%">Waktu</th>
-                                <th width="10%">Slot</th>
-                                <th width="15%">Tipe Aktivitas</th>
-                                <th width="45%">Detail Log</th>
-                                <th width="15%">User / Sistem</th>
+                                <th>ID Transaksi</th>
+                                <th>Slot / Lokasi</th>
+                                <th>Waktu Masuk</th>
+                                <th>Waktu Keluar</th>
+                                <th>Total Durasi</th>
+                                <th>Nominal</th>
+                                <th>Metode Pembayaran</th>
+                                <th>Cross-Check Palang</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody id="logs-table-body">
-                            <!-- Dynamic log rows -->
+                        <tbody id="audit-table-body">
+                            <!-- Dynamic rows loaded from javascript -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Right Column (Sidebar Anomaly & Incident Feed) -->
-        <aside class="sidebar-area">
-            <div class="sidebar-header">
-                <h2>Live Incident & Anomaly Feed</h2>
-                <span class="alert-count" id="sidebar-alert-count">0</span>
+    <!-- TAB 3: SPESIFIKASI ARSITEKTUR & DATABASE -->
+    <div id="content-spec" class="tab-content">
+        <div class="spec-container">
+            <div class="spec-sidebar">
+                <button class="spec-menu-btn active" data-spec-section="db-schema">Skema Database (IoT + QRIS)</button>
+                <button class="spec-menu-btn" data-spec-section="tech-stack">Rekomendasi Tech Stack</button>
+                <button class="spec-menu-btn" data-spec-section="sql-query">SQL Report Query</button>
+                <button class="spec-menu-btn" data-spec-section="wireframe">Wireframe Analitik B2B</button>
             </div>
             
-            <div class="incident-feed" id="incident-feed">
-                <!-- Incident cards dynamically populated -->
+            <div class="spec-content">
+                <!-- Section: DB Schema -->
+                <div id="spec-section-db-schema" class="spec-section active">
+                    <h2>Desain Arsitektur Data & Skema Database</h2>
+                    <p class="spec-desc">Untuk sinkronisasi log sensor IoT (volume tinggi, time-series) dan riwayat pembayaran QRIS (transaksional, konsistensi tinggi), kami merekomendasikan pendekatan **Hybrid/Polyglot Database**:</p>
+                    
+                    <div class="schema-tabs-wrapper">
+                        <!-- Relational Database Schemas -->
+                        <div class="schema-card">
+                            <h3>1. Relational Database (e.g. PostgreSQL)</h3>
+                            <p class="schema-desc">Digunakan untuk data keuangan, profil pengguna, dan audit transaksi yang memerlukan relasi kuat dan kepatuhan ACID.</p>
+                            
+                            <pre class="code-block"><code>-- Tabel: devices (Informasi fisik lot parkir)
+CREATE TABLE devices (
+    lock_id VARCHAR(50) PRIMARY KEY,
+    location_name VARCHAR(100) NOT NULL,
+    current_status VARCHAR(20) DEFAULT 'vacant', -- vacant, occupied, transition, error
+    battery_percent INT CHECK (battery_percent BETWEEN 0 AND 100),
+    solar_charging BOOLEAN DEFAULT FALSE,
+    standby_current_ua INT DEFAULT 200, -- standby draw 200-300uA
+    signal_strength INT,
+    last_ping TIMESTAMP WITH TIME ZONE
+);
+
+-- Tabel: transactions (Data utama QRIS & sesi parkir)
+CREATE TABLE transactions (
+    transaction_id VARCHAR(100) PRIMARY KEY,
+    lock_id VARCHAR(50) REFERENCES devices(lock_id),
+    plate_number VARCHAR(15) NOT NULL,
+    entry_time TIMESTAMP WITH TIME ZONE NOT NULL,
+    exit_time TIMESTAMP WITH TIME ZONE,
+    duration_minutes INT,
+    amount_idr NUMERIC(10, 2) NOT NULL,
+    qris_string TEXT NOT NULL,
+    pg_reference VARCHAR(100),
+    status VARCHAR(20) DEFAULT 'qris_generated', -- qris_generated, paid, expired, completed
+    barrier_crosscheck VARCHAR(20) DEFAULT 'pending', -- pending, verified, manual_override
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel: manual_overrides (Log audit keamanan override)
+CREATE TABLE manual_overrides (
+    override_id SERIAL PRIMARY KEY,
+    transaction_id VARCHAR(100) REFERENCES transactions(transaction_id),
+    lock_id VARCHAR(50) REFERENCES devices(lock_id),
+    action_type VARCHAR(20) NOT NULL, -- raise, lower, reset
+    hex_command VARCHAR(100) NOT NULL,
+    reason TEXT NOT NULL,
+    operator_name VARCHAR(100) NOT NULL,
+    executed_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+                        </div>
+
+                        <!-- NoSQL Database Schema -->
+                        <div class="schema-card">
+                            <h3>2. Time-Series / NoSQL Database (e.g. MongoDB or InfluxDB)</h3>
+                            <p class="schema-desc">Digunakan untuk menyimpan log telemetri berkecepatan tinggi, delta perubahan sensor, dan data error mentah langsung dari perangkat parkir IoT.</p>
+                            
+                            <pre class="code-block"><code>// Koleksi: telemetry_logs (MongoDB Document)
+{
+  "_id": ObjectId("646bb6f784e1b8b8b8b8b8b8"),
+  "lock_id": "SC1240-A01",
+  "timestamp": ISODate("2026-05-23T08:50:00Z"),
+  "battery_voltage_mv": 12400,
+  "battery_percent": 84,
+  "current_draw_ua": 250,
+  "solar_power_charging": true,
+  "signal_dbm": -72,
+  "sensors_state": {
+    "infrared_blocked": false,
+    "radar_presence": false,
+    "geomagnetic_delta_b": 0.2
+  },
+  "baffle_angle_deg": 0.0,
+  "error_code": 0x00, // 0x80 (jammed), 0x20 (shaking)
+  "firmware_version": "1.0.0"
+}
+
+// Koleksi: obstacle_protection_logs
+{
+  "_id": ObjectId("646bb71d84e1b8b8b8b8b8b9"),
+  "lock_id": "SC1240-A01",
+  "timestamp": ISODate("2026-05-23T08:52:10Z"),
+  "elev_angle_deg": 28.5, // elevasi < 35 derajat
+  "repeated_trigger_count": 3,
+  "action": "AUTO_RE-RAISE_PROTECTION",
+  "description": "Perangkat membentur halangan, palang kembali naik untuk proteksi ban kendaraan."
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Tech Stack -->
+                <div id="spec-section-tech-stack" class="spec-section">
+                    <h2>Rekomendasi Tech Stack Modern B2B IoT</h2>
+                    <p class="spec-desc">Arsitektur terdistribusi terintegrasi untuk menangani ribuan perangkat parkir model SC1240 secara skalabel:</p>
+                    
+                    <div class="tech-grid">
+                        <div class="tech-column">
+                            <h3>IoT Gateway & Backend (API & Webhook)</h3>
+                            <ul>
+                                <li><strong>Runtime Environment:</strong> Node.js (TypeScript) dengan framework NestJS. Menawarkan arsitektur modular tinggi, integrasi WebSocket/MQTT bawaan untuk telemetri IoT, dan pustaka ORM (TypeORM/Mongoose).</li>
+                                <li><strong>IoT Protokol:</strong> <strong>EMQX</strong> sebagai MQTT Broker berkinerja tinggi untuk mendengarkan telemetri perangkat via jaringan seluler (NB-IoT/4G).</li>
+                                <li><strong>Payment Integration:</strong> Node.js SDK Midtrans/Xendit untuk penanganan enkripsi, verifikasi signature webhook SHA-512, dan pembuatan QRISEMVCo dinamis.</li>
+                            </ul>
+                        </div>
+                        <div class="tech-column">
+                            <h3>Mobile Apps (Teknisi & Operator Lapangan)</h3>
+                            <ul>
+                                <li><strong>Framework:</strong> <strong>React Native</strong> (dengan TypeScript). Menggunakan kode dasar tunggal (single codebase) untuk iOS & Android.</li>
+                                <li><strong>BLE Integrasi:</strong> Pustaka `react-native-ble-plx` untuk komunikasi nirkabel direct Bluetooth ke mikrokontroler SC1240 untuk keperluan OTA update, debug lokal, dan manual command reset lapangan.</li>
+                                <li><strong>State Management:</strong> Redux Toolkit dengan RTK Query untuk caching telemetry data dari API backend.</li>
+                            </ul>
+                        </div>
+                        <div class="tech-column">
+                            <h3>Infrastructure & Security</h3>
+                            <ul>
+                                <li><strong>Cache & Queue:</strong> **Redis** untuk antrean retry pengiriman perintah BLE/NB-IoT (Retry Queue) ke perangkat yang sedang offline, serta menjaga ID idempotensi pembayaran agar tidak terjadi double payment.</li>
+                                <li><strong>Security:</strong> Enkripsi AES-128 pada frame komunikasi BLE, otentikasi JWT Bearer token pada API Backend, dan otorisasi bertingkat antara staf keamanan (Bypass) dan manager keuangan (Laporan Ekspor).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: SQL Query -->
+                <div id="spec-section-sql-query" class="spec-section">
+                    <h2>Contoh Query SQL Analitik Keuangan</h2>
+                    <p class="spec-desc">Query relasional SQL di bawah digunakan oleh tim Finance dan Analyst untuk menghitung total pendapatan harian dari transaksi QRIS yang berstatus 'Paid' atau 'Settled' (dalam zona waktu Jakarta):</p>
+                    
+                    <div class="query-card">
+                        <h3>Query Pendapatan Harian</h3>
+                        <pre class="code-block"><code>SELECT 
+    DATE(entry_time AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Jakarta') AS tanggal_lokal,
+    COUNT(transaction_id) AS jumlah_transaksi_sukses,
+    SUM(amount_idr) AS total_pendapatan_bersih,
+    SUM(CASE WHEN status = 'error' THEN amount_idr ELSE 0 END) AS potensi_kebocoran_status
+FROM 
+    transactions
+WHERE 
+    status IN ('paid', 'settled', 'completed')
+    AND entry_time >= CURRENT_DATE - INTERVAL '30 days' -- Filter data 30 hari terakhir
+GROUP BY 
+    tanggal_lokal
+ORDER BY 
+    tanggal_lokal DESC;</code></pre>
+                    </div>
+
+                    <div class="query-card" style="margin-top: 16px;">
+                        <h3>Penjelasan Teknis Query:</h3>
+                        <ul>
+                            <li><strong>`AT TIME ZONE` conversion:</strong> Mengonversi waktu penyimpanan standar UTC database ke waktu lokal operasional (`Asia/Jakarta`) agar kalkulasi pergantian hari tepat pukul 00:00 WIB.</li>
+                            <li><strong>`status IN ('paid', 'settled')`:</strong> Menyaring hanya transaksi yang telah terverifikasi sukses dibayar melalui webhook payment gateway.</li>
+                            <li><strong>`SUM` dan `COUNT`:</strong> Mengagregasikan total nominal rupiah dan menghitung volume transaksi per hari.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section: Wireframe -->
+                <div id="spec-section-wireframe" class="spec-section">
+                    <h2>Wireframe Layout B2B Revenue Dashboard</h2>
+                    <p class="spec-desc">Berikut adalah konsep cetak biru (text wireframe) tata letak dashboard yang ditunjukkan kepada klien manajemen fasilitas B2B dalam fase presentasi proposal proyek:</p>
+                    
+                    <pre class="code-block" style="font-family: monospace; font-size: 11px; line-height: 1.3; color: #38bdf8;"><code>+---------------------------------------------------------------------------------------------------------+
+| [BSS PARKING LOGO]        BSS PARKING LOCK MANAGER - OPERATIONAL REVENUE DASHBOARD         [USER: ADMIN] |
++---------------------------------------------------------------------------------------------------------+
+| TABS: [Pusat Kendali]  [>> ANALITIK PENDAPATAN <<]  [Spesifikasi Arsitektur]                            |
++---------------------------------------------------------------------------------------------------------+
+|                                                                                                         |
+|  1. PANEL KPI UTAMA (DAILY STATISTICS)                                                                  |
+|  +--------------------------+ +--------------------------+ +--------------------+ +--------------------+ |
+|  | TOTAL PENDAPATAN HARIAN  | | TRANSAKSI QRIS SUKSES    | | OCCUPANCY RATE   | | REVENUE LEAKAGE    | |
+|  | Rp 2.450.000             | | 28 Transaksi             | | 60% (6/10 Slot)  | | Rp 15.000          | |
+|  | (15% vs kemarin)         | | (Tingkat Sukses 100%)    | | (3 Slot Kosong)  | | (Pemicu: Error 20) | |
+|  +--------------------------+ +--------------------------+ +--------------------+ +--------------------+ |
+|                                                                                                         |
+|  2. PERFORMA VISUALISASI                                                                                |
+|  +--------------------------------------------------+ +-----------------------------------------------+ |
+|  | GRAFIK 1: TREN PENDAPATAN PER JAM                | | GRAFIK 2: SEBARAN DURASI VS TOTAL RUPIAH      | |
+|  | (Hourly Line Chart - Identifikasi Peak Hours)    | | (Scatter Plot Correlation Analysis)           | |
+|  |                                                  | |                                               | |
+|  |  Rp 40k|      _/\_                               | |  Rp 50k|                   o (Slot 8, 3 jam)  | |
+|  |  Rp 20k|    _/    \_                             | |  Rp 20k|            o                         | |
+|  |    Rp 0|___/________\________                    | |   Rp 0|__o____o_______________________________| |
+|  |        06   12   18   24 (Jam)                   | |       0.5  1.0  1.5  2.0  2.5  3.0 (Durasi Jam)  | |
+|  +--------------------------------------------------+ +-----------------------------------------------+ |
+|                                                                                                         |
+|  3. AUDIT LAPORAN & EKSPOR                                                                              |
+|  +----------------------------------------------------------------------------------+-----------------+ |
+|  | TABEL AUDIT TRANSAKSI KEUANGAN                                                   | [EKSPOR CSV]    | |
+|  | +--------------+----------+-----------------+-----------------+---------+--------+-----------------+ |
+|  | | ID Transaksi | Lokasi   | Waktu Masuk     | Waktu Keluar    | Nominal | Status | Crosscheck      | |
+|  | +--------------+----------+-----------------+-----------------+---------+--------+-----------------+ |
+|  | | TXN-982103   | Slot 02  | 08:30:10 WIB    | 09:12:45 WIB    | Rp 8.000| PAID   | OK (Autodown)   | |
+|  | | TXN-982054   | Slot 05  | 07:15:00 WIB    | 07:30:00 WIB    | Rp 3.000| PAID   | OK (Autodown)   | |
+|  | | TXN-981881   | Slot 03  | 05:10:00 WIB    | 07:00:00 WIB    | Rp13.000| PAID   | MANUAL OVERRIDE | |
+|  | +--------------+----------+-----------------+-----------------+---------+--------+-----------------+ |
+|  +----------------------------------------------------------------------------------------------------+ |
++---------------------------------------------------------------------------------------------------------+</code></pre>
+                </div>
             </div>
-        </aside>
-    </main>
+        </div>
+    </div>
 
     <!-- Modal: Quick Action Card & Manual Override -->
     <div class="modal-backdrop" id="quick-action-modal">
@@ -203,7 +529,7 @@
                                 <div class="tel-details">
                                     <span class="tel-label">Biaya Parkir Berjalan</span>
                                     <span class="tel-val" id="modal-cost">Rp 0</span>
-                                    <span class="tel-sub">Tarif Dinamis QRIS</span>
+                                    <span class="tel-sub" id="modal-current-current">Standby Draw: --</span>
                                 </div>
                             </div>
                         </div>
@@ -211,9 +537,9 @@
 
                     <!-- Column 2: Override Actions with Safety Guards -->
                     <div class="modal-control-panel">
-                        <h4 class="control-panel-title">Panel Manual Override (Bypass Jaringan)</h4>
+                        <h4 class="control-panel-title">Panel Manual Override & Maintenance</h4>
                         
-                        <!-- Safety Lock Swtich to prevent Accidental Clicks -->
+                        <!-- Safety Lock Switch to prevent Accidental Clicks -->
                         <div class="safety-lock-card">
                             <label class="switch-container">
                                 <input type="checkbox" id="safety-bypass-checkbox">
@@ -221,7 +547,7 @@
                             </label>
                             <div class="safety-text">
                                 <span class="safety-title">Buka Proteksi Kontrol Manual</span>
-                                <span class="safety-desc">Wajib diaktifkan untuk melakukan aksi bypass darurat</span>
+                                <span class="safety-desc">Wajib diaktifkan untuk melakukan aksi bypass darurat/reset</span>
                             </div>
                         </div>
 
@@ -235,7 +561,7 @@
                                     <option value="Kegagalan Pembayaran Otomatis">Kegagalan Pembayaran Otomatis</option>
                                     <option value="Gangguan Sinyal IoT / BLE Gateway">Gangguan Sinyal IoT / BLE Gateway</option>
                                     <option value="Malfungsi Mekanis Perangkat (Bypass)">Malfungsi Mekanis Perangkat (Bypass)</option>
-                                    <option value="Pengujian & Maintenance Rutin">Pengujian & Maintenance Rutin</option>
+                                    <option value="Reset & Maintenance Uji Coba">Reset & Maintenance Uji Coba</option>
                                 </select>
                             </div>
                             
@@ -247,11 +573,17 @@
                             <div class="action-buttons-group">
                                 <button type="button" class="btn btn-red" id="btn-raise-lock" disabled>
                                     <span class="btn-icon">⚡</span>
-                                    Kunci Slot (Naikkan Palang)
+                                    Naikkan (Lockout)
                                 </button>
                                 <button type="button" class="btn btn-green" id="btn-lower-lock" disabled>
                                     <span class="btn-icon">🔓</span>
-                                    Buka Paksa (Turunkan Palang)
+                                    Turunkan (Lock-down)
+                                </button>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <button type="button" class="btn btn-secondary" id="btn-reset-lock" style="width: 100%; font-weight: 700; border-color: rgba(59, 130, 246, 0.4); color: var(--text-accent);" disabled>
+                                    <span class="btn-icon">⚙</span>
+                                    Reset Perangkat (Software Reboot)
                                 </button>
                             </div>
                             <div class="hex-command-preview">
