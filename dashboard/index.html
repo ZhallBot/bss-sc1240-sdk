@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSS Parking — SC1240 Operational Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="10" rx="2" />
+                    <path d="M12 2v9M7 5l5-3 5 3" />
+                </svg>
+            </div>
+            <div class="logo-text">
+                <h1>BSS PARKING</h1>
+                <span class="sub-logo">Operational Admin Console</span>
+            </div>
+        </div>
+
+        <!-- Global Summary Stats -->
+        <div class="header-stats">
+            <div class="stat-badge total">
+                <span class="stat-val" id="count-total">10</span>
+                <span class="stat-label">Total Lot</span>
+            </div>
+            <div class="stat-badge vacant">
+                <span class="stat-val" id="count-vacant">0</span>
+                <span class="stat-label">Kosong</span>
+            </div>
+            <div class="stat-badge occupied">
+                <span class="stat-val" id="count-occupied">0</span>
+                <span class="stat-label">Terisi</span>
+            </div>
+            <div class="stat-badge transition">
+                <span class="stat-val" id="count-transition">0</span>
+                <span class="stat-label">Transisi</span>
+            </div>
+            <div class="stat-badge warning-badge">
+                <span class="stat-val" id="count-anomaly">0</span>
+                <span class="stat-label">Anomali</span>
+            </div>
+            <div class="stat-badge offline">
+                <span class="stat-val" id="count-offline">0</span>
+                <span class="stat-label">Offline</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="connection-status">
+                <span class="status-indicator live"></span>
+                <span class="status-text">Sistem Aktif (Simulasi)</span>
+            </div>
+            <div class="operator-profile">
+                <div class="avatar">OP</div>
+                <div class="operator-info">
+                    <span class="operator-name">Bripda Setiawan</span>
+                    <span class="operator-role">Petugas Keamanan</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="dashboard-container">
+        <!-- Center/Left Workspace (Grid & Logs) -->
+        <div class="workspace-area">
+            <!-- Section Title -->
+            <div class="section-header">
+                <h2>Live Parking Grid View</h2>
+                <div class="header-actions">
+                    <span class="live-ticker-label">Detak Telemetri:</span>
+                    <span class="telemetry-tick" id="telemetry-tick-indicator"></span>
+                </div>
+            </div>
+
+            <!-- Grid Layout -->
+            <div class="parking-grid" id="parking-grid">
+                <!-- Dynamically populated by dashboard.js -->
+            </div>
+
+            <!-- Activity Logs Section -->
+            <div class="logs-section">
+                <div class="section-header logs-header">
+                    <h2>Log Aktivitas Real-Time</h2>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" data-filter="all">Semua</button>
+                        <button class="filter-btn" data-filter="error">Anomali & Error</button>
+                        <button class="filter-btn" data-filter="payment">Transaksi Sukses</button>
+                        <div class="search-box">
+                            <input type="text" id="log-search-slot" placeholder="Filter Nomor Slot (misal: 03)...">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="logs-table">
+                        <thead>
+                            <tr>
+                                <th width="15%">Waktu</th>
+                                <th width="10%">Slot</th>
+                                <th width="15%">Tipe Aktivitas</th>
+                                <th width="45%">Detail Log</th>
+                                <th width="15%">User / Sistem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table-body">
+                            <!-- Dynamic log rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column (Sidebar Anomaly & Incident Feed) -->
+        <aside class="sidebar-area">
+            <div class="sidebar-header">
+                <h2>Live Incident & Anomaly Feed</h2>
+                <span class="alert-count" id="sidebar-alert-count">0</span>
+            </div>
+            
+            <div class="incident-feed" id="incident-feed">
+                <!-- Incident cards dynamically populated -->
+            </div>
+        </aside>
+    </main>
+
+    <!-- Modal: Quick Action Card & Manual Override -->
+    <div class="modal-backdrop" id="quick-action-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Quick Action Panel — Slot <span id="modal-slot-id">--</span></h3>
+                <button class="close-btn" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Grid info & actions -->
+                <div class="modal-layout">
+                    <!-- Column 1: Info & Telemetry -->
+                    <div class="modal-info-panel">
+                        <div class="status-summary-card">
+                            <div class="summary-field">
+                                <span class="lbl">Status Lot</span>
+                                <span class="val status-pill" id="modal-status-text">--</span>
+                            </div>
+                            <div class="summary-field">
+                                <span class="lbl">Plat Kendaraan</span>
+                                <span class="val text-highlight" id="modal-plate">Tidak Ada</span>
+                            </div>
+                        </div>
+
+                        <div class="telemetry-info-grid">
+                            <div class="tel-card">
+                                <div class="tel-icon text-yellow">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="6" width="18" height="12" rx="2" />
+                                        <path d="M23 11v2" />
+                                    </svg>
+                                </div>
+                                <div class="tel-details">
+                                    <span class="tel-label">Baterai (Lead-Acid)</span>
+                                    <span class="tel-val" id="modal-battery">--%</span>
+                                    <span class="tel-sub" id="modal-solar-status">MOCKING</span>
+                                </div>
+                            </div>
+                            <div class="tel-card">
+                                <div class="tel-icon text-blue">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M5 12h14M12 5v14" />
+                                    </svg>
+                                </div>
+                                <div class="tel-details">
+                                    <span class="tel-label">Kekuatan Sinyal IoT</span>
+                                    <span class="tel-val" id="modal-signal">--%</span>
+                                    <span class="tel-sub" id="modal-signal-label">Sangat Baik</span>
+                                </div>
+                            </div>
+                            <div class="tel-card">
+                                <div class="tel-icon text-purple">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg>
+                                </div>
+                                <div class="tel-details">
+                                    <span class="tel-label">Durasi Parkir</span>
+                                    <span class="tel-val" id="modal-duration">-- mnt</span>
+                                    <span class="tel-sub" id="modal-checkin-time">Check-in: --</span>
+                                </div>
+                            </div>
+                            <div class="tel-card">
+                                <div class="tel-icon text-green">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                </div>
+                                <div class="tel-details">
+                                    <span class="tel-label">Biaya Parkir Berjalan</span>
+                                    <span class="tel-val" id="modal-cost">Rp 0</span>
+                                    <span class="tel-sub">Tarif Dinamis QRIS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Override Actions with Safety Guards -->
+                    <div class="modal-control-panel">
+                        <h4 class="control-panel-title">Panel Manual Override (Bypass Jaringan)</h4>
+                        
+                        <!-- Safety Lock Swtich to prevent Accidental Clicks -->
+                        <div class="safety-lock-card">
+                            <label class="switch-container">
+                                <input type="checkbox" id="safety-bypass-checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                            <div class="safety-text">
+                                <span class="safety-title">Buka Proteksi Kontrol Manual</span>
+                                <span class="safety-desc">Wajib diaktifkan untuk melakukan aksi bypass darurat</span>
+                            </div>
+                        </div>
+
+                        <!-- Manual Override Forms (Initially disabled) -->
+                        <div class="override-form-group disabled-state" id="override-form-elements">
+                            <div class="form-item">
+                                <label for="override-reason" class="form-label">Alasan Aksi Manual (Wajib Audit)*</label>
+                                <select id="override-reason" class="form-select">
+                                    <option value="" disabled selected>Pilih alasan audit...</option>
+                                    <option value="Tamu VIP / Protokoler">Tamu VIP / Protokoler</option>
+                                    <option value="Kegagalan Pembayaran Otomatis">Kegagalan Pembayaran Otomatis</option>
+                                    <option value="Gangguan Sinyal IoT / BLE Gateway">Gangguan Sinyal IoT / BLE Gateway</option>
+                                    <option value="Malfungsi Mekanis Perangkat (Bypass)">Malfungsi Mekanis Perangkat (Bypass)</option>
+                                    <option value="Pengujian & Maintenance Rutin">Pengujian & Maintenance Rutin</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-item">
+                                <label for="override-custom-reason" class="form-label">Catatan Tambahan (Opsional)</label>
+                                <input type="text" id="override-custom-reason" class="form-input" placeholder="Masukkan catatan tambahan...">
+                            </div>
+
+                            <div class="action-buttons-group">
+                                <button type="button" class="btn btn-red" id="btn-raise-lock" disabled>
+                                    <span class="btn-icon">⚡</span>
+                                    Kunci Slot (Naikkan Palang)
+                                </button>
+                                <button type="button" class="btn btn-green" id="btn-lower-lock" disabled>
+                                    <span class="btn-icon">🔓</span>
+                                    Buka Paksa (Turunkan Palang)
+                                </button>
+                            </div>
+                            <div class="hex-command-preview">
+                                <span class="hex-lbl">Preview Hex Command:</span>
+                                <code class="hex-val" id="hex-preview">Silakan pilih perintah...</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialog Modal -->
+    <div class="modal-backdrop confirmation-backdrop" id="confirm-modal">
+        <div class="confirm-card">
+            <div class="confirm-icon text-red">⚠️</div>
+            <h3 class="confirm-title">Konfirmasi Aksi Manual Override</h3>
+            <p class="confirm-message">Apakah Anda yakin ingin mengirim perintah ini ke perangkat? Aksi ini akan direkam ke dalam log audit keamanan gedung.</p>
+            <div class="confirm-summary">
+                <div class="c-row"><strong>Nomor Slot:</strong> <span id="conf-slot-id">--</span></div>
+                <div class="c-row"><strong>Aksi:</strong> <span id="conf-action">--</span></div>
+                <div class="c-row"><strong>Hex Command:</strong> <code id="conf-hex">--</code></div>
+                <div class="c-row"><strong>Alasan Audit:</strong> <span id="conf-reason">--</span></div>
+            </div>
+            <div class="confirm-actions">
+                <button class="btn btn-secondary" id="btn-confirm-cancel">Batalkan</button>
+                <button class="btn btn-primary" id="btn-confirm-submit">Ya, Kirim Perintah</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast-notification" id="toast-notif">
+        <div class="toast-icon"></div>
+        <div class="toast-body">
+            <h4 class="toast-title"></h4>
+            <p class="toast-desc"></p>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
