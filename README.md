@@ -527,22 +527,50 @@ device.connect();
 
 Kami telah membuat aplikasi mobile Android lengkap untuk petugas lapangan di folder `mobile/android/`.
 
-#### Fitur Utama Aplikasi Mobile:
-1. **BLE Scanner**: Otomatis memindai dan mencantumkan daftar perangkat SC1240 terdekat.
-2. **Real-time Telemetry Dashboard**: Menampilkan status palang, status keberadaan kendaraan, persentase daya baterai, status solar panel, kekuatan sinyal BLE, dan sudut kemiringan baffle.
-3. **Manual Override**: Tombol **RAISE** (Hijau), **LOWER** (Merah), dan **RESET** perangkat secara langsung via Bluetooth dengan konfirmasi pengaman dan input alasan audit.
-4. **Log Audit & CSV Export**: Riwayat log telemetri lokal yang dapat difilter dan diekspor ke format CSV untuk audit lapangan.
-
 #### Unduh File APK Langsung:
 File APK siap instal untuk keperluan pengujian lapangan dapat diunduh langsung di root repository:
 👉 **[bss-parking-field-app.apk](./bss-parking-field-app.apk)** *(~7.36 MB)*
 
-#### Cara Install & Penggunaan:
-1. Unduh berkas `bss-parking-field-app.apk` ke HP Android petugas.
-2. Izinkan instalasi dari sumber tidak dikenal (*install unknown apps*) jika diminta.
-3. Buka aplikasi dan pastikan izin lokasi/Bluetooth telah diberikan.
-4. Jalankan scan perangkat, lalu pilih kunci parkir SC1240 terdekat untuk dikontrol.
-5. Panduan penggunaan lengkap aplikasi mobile dapat dibaca pada [README Mobile App](mobile/android/README.md).
+#### D.5.1 Panduan Penggunaan Aplikasi (Langkah-demi-Langkah)
+
+##### Langkah 1: Persiapan & Instalasi
+1. Unduh berkas **[bss-parking-field-app.apk](./bss-parking-field-app.apk)** langsung ke ponsel Android petugas lapangan.
+2. Buka berkas APK tersebut dan pilih **Install**. Jika muncul sistem keamanan Android Play Protect atau peringatan sumber tidak dikenal, pilih **Izinkan/Tetap Instal**.
+3. Pastikan koneksi Bluetooth dan GPS/Layanan Lokasi pada ponsel Anda telah diaktifkan sebelum membuka aplikasi.
+
+##### Langkah 2: Pemindaian Perangkat (BLE Scanning)
+* Di Dashboard Utama aplikasi, ketuk tombol **🔍 SCAN PERANGKAT BLE**.
+* Jika aplikasi meminta izin akses Bluetooth dan Lokasi, ketuk **Izinkan**.
+* Aplikasi akan memindai area sekitar secara real-time. Perangkat kunci parkir model SC1240 yang terdeteksi akan muncul dalam daftar beserta kekuatan sinyalnya (RSSI).
+* Ketuk nama perangkat (misalnya `SC1240-A1B2`) untuk menghubungkan.
+
+##### Langkah 3: Pemantauan Telemetri Real-Time
+Setelah terhubung, layar **Panel Kontrol** akan terbuka secara otomatis dan menampilkan data sensor real-time:
+* **Posisi Palang**: Menunjukkan apakah palang parkir sedang *UP* (Terkunci/Naik) atau *DOWN* (Turun/Kosong).
+* **Keberadaan Kendaraan**: Sensor Radar, Infrared, dan Geomagnetik berkolaborasi untuk menampilkan status `KOSONG` atau `TERISI`.
+* **Kapasitas Baterai**: Menampilkan persentase daya baterai lead-acid 7AH/12V, serta indikator `☀ Solar` jika panel surya sedang aktif melakukan pengisian daya.
+* **Sudut Baffle**: Menampilkan kemiringan sudut palang secara presisi dalam satuan derajat.
+
+##### Langkah 4: Aksi Kontrol Manual & Override Keamanan
+Petugas dapat mengirim perintah pemeliharaan langsung melalui koneksi nirkabel Bluetooth:
+* **Angkat Palang (RAISE)**: Digunakan untuk mengunci lot parkir secara manual.
+* **Turunkan Palang (LOWER)**: Digunakan untuk membebaskan lot parkir secara manual.
+* **Reset Perangkat (RESET)**: Melakukan *software reboot* jarak jauh apabila perangkat mengalami malfungsi sensor atau komunikasi.
+* *Keamanan Audit*: Setiap kali tombol kontrol ditekan, aplikasi akan memunculkan dialog konfirmasi dan meminta petugas memilih alasan audit (seperti *VIP Guest*, *Payment Failure*, *Sensor Glitch*) untuk mencegah ketidaksengajaan klik.
+
+##### Langkah 5: Riwayat Event & Ekspor CSV
+* Tekan tombol **📋 Riwayat Event** di Dashboard Utama untuk masuk ke layar log.
+* Anda dapat memfilter tampilan log berdasarkan kategori: `Perintah`, `Error`, `Telemetri`, atau `Koneksi`.
+* Untuk mengekspor data laporan audit ke komputer/bagian finance, tekan tombol menu titik tiga (⋮) di kanan atas lalu pilih **Ekspor ke CSV**. Aplikasi akan merakit log ke format CSV standar dan membuka menu berbagi (*Share*) bawaan ponsel.
+
+#### D.5.2 Panduan Pemecahan Masalah (Troubleshooting)
+
+| Gejala Masalah | Kemungkinan Penyebab | Tindakan Solusi |
+|---|---|---|
+| Daftar perangkat kosong saat memindai | Bluetooth atau GPS HP mati | Aktifkan Bluetooth & Layanan Lokasi di setelan HP. |
+| Koneksi ke SC1240 terputus terus | Jarak HP terlalu jauh dari alat | Dekatkan posisi HP ke perangkat kunci parkir (< 5 meter). |
+| Perintah kontrol gagal / timeout | Gangguan interferensi atau muatan penuh | Tekan tombol **RESET** di panel kontrol atau lakukan koneksi ulang BLE. |
+| Indikator baterai kritis (< 10%) | Baterai drop / tertutup debu | Periksa panel surya dari kotoran atau ganti baterai lead-acid 12V cadangan. |
 
 ---
 
