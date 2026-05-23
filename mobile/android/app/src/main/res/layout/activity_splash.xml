@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/bg_dark"
+    android:padding="32dp">
+
+    <!-- Logo / Icon placeholder -->
+    <TextView
+        android:id="@+id/splash_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:text="🔒"
+        android:textSize="64sp"
+        android:gravity="center"
+        android:background="@drawable/bg_card_dark"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/splash_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BSS Parking"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/cyan_accent"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black" />
+
+    <TextView
+        android:id="@+id/splash_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Smart Lock Manager"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SC1240 Field Officer App"
+        android:textSize="12sp"
+        android:textColor="@color/text_hint"
+        android:layout_marginTop="4dp" />
+
+</LinearLayout>

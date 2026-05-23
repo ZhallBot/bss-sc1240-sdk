@@ -523,6 +523,27 @@ device.connect();
 > Jangan lupa request runtime permission BLUETOOTH_CONNECT dan BLUETOOTH_SCAN
 > di Android 12+ (API 31+) sebelum memanggil connect().
 
+### D.5 Aplikasi Lapangan (Field Officer Mobile App - APK)
+
+Kami telah membuat aplikasi mobile Android lengkap untuk petugas lapangan di folder `mobile/android/`.
+
+#### Fitur Utama Aplikasi Mobile:
+1. **BLE Scanner**: Otomatis memindai dan mencantumkan daftar perangkat SC1240 terdekat.
+2. **Real-time Telemetry Dashboard**: Menampilkan status palang, status keberadaan kendaraan, persentase daya baterai, status solar panel, kekuatan sinyal BLE, dan sudut kemiringan baffle.
+3. **Manual Override**: Tombol **RAISE** (Hijau), **LOWER** (Merah), dan **RESET** perangkat secara langsung via Bluetooth dengan konfirmasi pengaman dan input alasan audit.
+4. **Log Audit & CSV Export**: Riwayat log telemetri lokal yang dapat difilter dan diekspor ke format CSV untuk audit lapangan.
+
+#### Unduh File APK Langsung:
+File APK siap instal untuk keperluan pengujian lapangan dapat diunduh langsung di root repository:
+👉 **[bss-parking-field-app.apk](./bss-parking-field-app.apk)** *(~7.36 MB)*
+
+#### Cara Install & Penggunaan:
+1. Unduh berkas `bss-parking-field-app.apk` ke HP Android petugas.
+2. Izinkan instalasi dari sumber tidak dikenal (*install unknown apps*) jika diminta.
+3. Buka aplikasi dan pastikan izin lokasi/Bluetooth telah diberikan.
+4. Jalankan scan perangkat, lalu pilih kunci parkir SC1240 terdekat untuk dikontrol.
+5. Panduan penggunaan lengkap aplikasi mobile dapat dibaca pada [README Mobile App](mobile/android/README.md).
+
 ---
 
 ## Track E: Payment Backend

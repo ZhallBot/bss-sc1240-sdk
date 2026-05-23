@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BSS Parking"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/cyan_accent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="v1.0"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:background="@drawable/bg_chip"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
+        </LinearLayout>
+
+        <!-- Device Connected Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_device_connected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            style="@style/CardDark">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_device_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="● TERHUBUNG"
+                    android:textSize="12sp"
+                    android:textColor="@color/green_ok"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tv_device_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SC1240-A1B2"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/tv_device_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AA:BB:CC:DD:EE:FF"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="monospace" />
+
+                <Button
+                    android:id="@+id/btn_open_control"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="⚙ BUKA PANEL KONTROL"
+                    android:layout_marginTop="12dp"
+                    android:enabled="false"
+                    style="@style/ButtonPrimary" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- No Device Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_device_disconnected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            style="@style/CardDark">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔍"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Belum Ada Perangkat"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scan perangkat SC1240 terdekat untuk memulai"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:gravity="center"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Primary Action: Scan -->
+        <Button
+            android:id="@+id/btn_scan_devices"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🔍  SCAN PERANGKAT BLE"
+            android:layout_marginBottom="8dp"
+            style="@style/ButtonPrimary" />
+
+        <!-- Secondary: Control (disabled until connected) -->
+        <Button
+            android:id="@+id/btn_open_history"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📋  Riwayat Event"
+            style="@style/ButtonSecondary" />
+
+        <!-- Info cards -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            style="@style/CardDark">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Panduan Cepat"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/cyan_accent"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1️⃣  Tap SCAN PERANGKAT BLE\n2️⃣  Pilih kunci SC1240 terdekat\n3️⃣  Gunakan panel kontrol untuk\n      Angkat / Turunkan / Reset kunci"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:lineSpacingExtra="4dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

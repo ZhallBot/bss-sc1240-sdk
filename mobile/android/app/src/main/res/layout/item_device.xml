@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center_vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/bg_card"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <!-- SC1240 indicator dot -->
+            <View
+                android:id="@+id/indicator_dot"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/bg_dot"
+                android:layout_marginEnd="12dp" />
+
+            <!-- Device info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_device_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SC1240-A1B2"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/tv_device_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AA:BB:CC:DD:EE:FF"
+                    android:textSize="11sp"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="monospace"
+                    android:layout_marginTop="2dp" />
+
+                <TextView
+                    android:id="@+id/tv_device_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SC1240 Parking Lock"
+                    android:textSize="11sp"
+                    android:textColor="@color/cyan_accent"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <!-- RSSI signal -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/tv_device_rssi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-65 dBm"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap untuk connect ›"
+                    android:textSize="10sp"
+                    android:textColor="@color/cyan_accent"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

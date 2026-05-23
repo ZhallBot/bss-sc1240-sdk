@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
+
+    <!-- Filter Chips -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:background="@color/bg_card"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true" />
+    </HorizontalScrollView>
+
+    <!-- Log count row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="6dp">
+
+        <TextView
+            android:id="@+id/tv_log_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0 event"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RIWAYAT EVENT"
+            android:textSize="11sp"
+            android:textColor="@color/cyan_accent"
+            android:letterSpacing="0.08" />
+    </LinearLayout>
+
+    <!-- Empty state -->
+    <TextView
+        android:id="@+id/tv_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Belum ada event tercatat"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone" />
+
+    <!-- Log list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_log"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>

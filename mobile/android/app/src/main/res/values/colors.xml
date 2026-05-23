@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Backgrounds -->
+    <color name="bg_dark">#0D0F1A</color>
+    <color name="bg_card">#161928</color>
+    <color name="bg_card_border">#232640</color>
+
+    <!-- Accent Colors -->
+    <color name="cyan_accent">#00E5FF</color>
+    <color name="cyan_dark">#007A8C</color>
+    <color name="green_ok">#00E676</color>
+    <color name="green_dark">#00573A</color>
+    <color name="red_error">#FF5252</color>
+    <color name="red_dark">#1F0808</color>
+    <color name="yellow_warn">#FFD600</color>
+    <color name="yellow_dark">#3D2F00</color>
+
+    <!-- Text -->
+    <color name="text_primary">#ECEFF1</color>
+    <color name="text_secondary">#8899AA</color>
+    <color name="text_hint">#4A5568</color>
+
+    <!-- Brand -->
+    <color name="colorPrimary">#00E5FF</color>
+    <color name="colorPrimaryDark">#006070</color>
+    <color name="colorAccent">#00FF88</color>
+</resources>

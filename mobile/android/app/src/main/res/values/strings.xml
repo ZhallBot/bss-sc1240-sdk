@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BSS Parking</string>
+    <string name="app_name_full">BSS Parking Smart Lock Manager</string>
+
+    <!-- Actions -->
+    <string name="action_scan">Scan Perangkat</string>
+    <string name="action_connect">Hubungkan</string>
+    <string name="action_disconnect">Putuskan</string>
+    <string name="action_raise">Angkat Palang</string>
+    <string name="action_lower">Turunkan Palang</string>
+    <string name="action_reset">Reset Perangkat</string>
+    <string name="action_get_status">Perbarui Status</string>
+    <string name="action_export">Ekspor CSV</string>
+
+    <!-- Status -->
+    <string name="status_connected">● TERHUBUNG</string>
+    <string name="status_disconnected">○ PUTUS</string>
+    <string name="status_scanning">Memindai perangkat BLE…</string>
+    <string name="status_no_device">Belum ada perangkat aktif</string>
+
+    <!-- Confirmations -->
+    <string name="confirm_raise">Angkat palang kunci parkir?</string>
+    <string name="confirm_lower">Turunkan palang kunci parkir?</string>
+    <string name="confirm_reset">Reset perangkat SC1240? Ini akan memutus koneksi sementara.</string>
+
+    <!-- Errors -->
+    <string name="err_bluetooth_required">Aktifkan Bluetooth terlebih dahulu</string>
+    <string name="err_permission_required">Izin Bluetooth diperlukan</string>
+    <string name="err_no_device">Tidak ada perangkat aktif</string>
+</resources>

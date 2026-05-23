@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
+
+    <!-- Scan Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/bg_card">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <View
+                android:id="@+id/progress_scanning"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/bg_pulse_dot"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_scan_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Siap untuk scan"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary"
+                android:layout_marginStart="8dp" />
+
+            <TextView
+                android:id="@+id/tv_scan_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 perangkat"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_scan"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="🔍  MULAI SCAN"
+            android:layout_marginTop="12dp"
+            style="@style/ButtonPrimary" />
+    </LinearLayout>
+
+    <!-- Divider label -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PERANGKAT DITEMUKAN"
+        android:textSize="11sp"
+        android:textColor="@color/text_secondary"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:letterSpacing="0.1" />
+
+    <!-- Device List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_devices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>
